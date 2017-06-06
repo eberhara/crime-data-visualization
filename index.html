@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 - Parallel coordinates with colors</title>
+  </head>
+  <style>
+  footer.copyright {
+    padding: 1.5em;
+  }
+  .mgt-60 {
+    margin-top: 60px;
+  }
+  rect {
+    fill: #2177BB;
+  }
+  rect.frame {
+    fill: none;
+    stroke: #aaa;
+    shape-rendering: crispEdges;
+  }
+  svg {
+    font: 10px sans-serif;
+  }
+  .background path {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+  }
+  .foreground path {
+    fill: none;
+    stroke: steelblue;
+  }
+  .brush .extent {
+    fill-opacity: .3;
+    stroke: #fff;
+    shape-rendering: crispEdges;
+  }
+  .axis line,
+  .axis path {
+    fill: none;
+    stroke: #ddd;
+    shape-rendering: crispEdges;
+  }
+  .axis text {
+    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    cursor: move;
+  }
+  #geoChart svg,
+  #geoChart2 svg {
+    fill: #ccc;
+  }
+  #geoChart path.state-boundary,
+  #geoChart2 path.state-boundary {
+    stroke: #ddd;
+  }
+  #geoChart path.county-boundary,
+  #geoChart2 path.county-boundary {
+    stroke: #25b;
+  }
+  #geoChart circle,
+  #geoChart2 circle {
+    fill: #3c9;
+  }
+  </style>
+  <body>
+
+    <div id="canvas"></div>
+
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
+
