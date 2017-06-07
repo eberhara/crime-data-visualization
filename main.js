@@ -11,9 +11,9 @@ var tooltip = d3.select("body")
 
 function drawParallelCoordinates2(id) {
   // canvas W & h & maring
-  var margin = {top: 40, right: 60, bottom: 60, left: 80},
-      width = 750,
-      height = 400;
+  var margin = {top: 60, right: 60, bottom: 60, left: 80},
+      width = window.innerWidth - 300,
+      height = window.innerHeight - 250;
 
   // prepare canvas
   var svg = d3.select(id)
@@ -36,7 +36,7 @@ function drawParallelCoordinates2(id) {
   var dragging = {};
 
   var color = d3.scale.category10();
-  var dimensions = ['Populacao', 'Educacao', 'PIB', 'Crime1000hab', 'Furto1000hab', 'PosseDrogas1000hab', 'Trafico1000hab'];
+  var dimensions = ['PIB', 'População', 'Educação', 'Renda', 'Crime*', 'Furto*', 'Roubo*',  'HomDol*', 'Posse de Drogas*', 'Trafico*'];
 
   // Returns the path for a given data point.
   var path = function(d) {
@@ -51,17 +51,17 @@ function drawParallelCoordinates2(id) {
   // "","wages","education","age","sex","language"
   // "1",10.56,15,40,"Male","English"
   d3.csv("macro-regioes.csv", function(error, data) {
-
-    //data = data.slice(data.length - 200); // last 50 record
-//data = data.slice(data.length);
     data.forEach(function(d) {
       d.Populacao = 'NA' === d.Populacao ? 0 : +d.Populacao;
       d.Educacao = 'NA' === d.Educacao ? 0 : +d.Educacao;
       d.PIB = 'NA' === d.PIB ? 0 : +d.PIB;
-d.Crime1000hab = 'NA' === d.Crime1000hab ? 0 : +d.Crime1000hab;
-d.Furto1000hab = 'NA' === d.Furto1000hab ? 0 : +d.Furto1000hab;
-d.PosseDrogas1000hab = 'NA' === d.PosseDrogas1000hab ? 0 : +d.PosseDrogas1000hab;
-d.Trafico1000hab = 'NA' === d.Trafico1000hab ? 0 : +d.Trafico1000hab;
+      d.Renda = 'NA' === d.Renda ? 0 : +d.Renda;
+      d.Crime = 'NA' === d.Crime ? 0 : +d.Crime;
+      d.Furto = 'NA' === d.Furto ? 0 : +d.Furto;
+      d.Roubo = 'NA' === d.Roubo ? 0 : +d.Roubo;
+      d.HomDol = 'NA' === d.HomDol ? 0 : +d.HomDol;
+      d.PosseDrogas = 'NA' === d.PosseDrogas ? 0 : +d.PosseDrogas;
+      d.Trafico = 'NA' === d.Trafico ? 0 : +d.Trafico;
     });
 
     // create a scale for each dimension.
