@@ -1,6 +1,14 @@
 var LINE_COLOR_0 = '#09c';
 var LINE_COLOR_1 = '#c69';
 
+
+var tooltip = d3.select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .text("a simple tooltip")
+    .attr("class","tooltip");
+
 function drawParallelCoordinates2(id) {
   // canvas W & h & maring
   var margin = {top: 40, right: 60, bottom: 60, left: 80},
@@ -12,7 +20,7 @@ function drawParallelCoordinates2(id) {
       .append('svg')
           .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
-      .style({ 'border':'1px solid #000' })
+      .style({ border: 'none' })
       .append("g")
           // .attr('width', width)
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -82,7 +90,31 @@ d.Trafico1000hab = 'NA' === d.Trafico1000hab ? 0 : +d.Trafico1000hab;
       .attr({'style': function(d) {
         return "stroke: " + color(d.Macroregiao)
       }})
-      .attr("d", path);
+      .attr("d", path)
+      .on("mouseover", function(n){
+	      d3.select(this).transition().duration(50)
+          .style({'stroke-width' : '5'});
+        d3.select(".tooltip")
+          .style({'transition-delay' : '0s'})
+          .style({'visibility' : 'visible'});
+
+        tooltip.text(n.name);
+
+	      return tooltip
+          .style("transition-delay", "0.3s")
+          .style("opacity", "1");
+      })
+      .on("mousemove", function(){
+        return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+      })
+      .on("mouseout", function(d){
+	      d3.select(this).transition().duration(1000)
+          .style({'stroke-width' : '1'});
+	      return tooltip
+          .style("visibility", "hidden")
+          .style("opacity", "0")
+          .style("transition-delay", "0.3s");
+      });
 
     // Add a group element for each dimension.
     var g = svg.selectAll(".dimension")
@@ -158,7 +190,7 @@ d.Trafico1000hab = 'NA' === d.Trafico1000hab ? 0 : +d.Trafico1000hab;
     newLegend(legend, color('Missioneira'), 'Missioneira', 200);
     newLegend(legend, color('Norte'), 'Norte', 300);
     newLegend(legend, color('Serra'), 'Serra', 370);
-    newLegend(legend, color('Sul'), 'Sul', 430);
+    newLegend(legend, color('Sul'), 'Sul', 440);
     newLegend(legend, color('Vales'), 'Vales', 500);
   });
   function transition(g) {

@@ -2,13 +2,17 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>D3 - Parallel coordinates with colors</title>
+    <title>Dados Criminais - RS</title>
   </head>
   <style>
-  footer.copyright {
-    padding: 1.5em;
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    width: 100%;
+    height: 100%;
   }
-  .mgt-60 {
+.mgt-60 {
     margin-top: 60px;
   }
   rect {
@@ -20,7 +24,7 @@
     shape-rendering: crispEdges;
   }
   svg {
-    font: 10px sans-serif;
+    font: 11px sans-serif;
   }
   .background path {
     fill: none;
@@ -62,14 +66,45 @@
   #geoChart2 circle {
     fill: #3c9;
   }
+  div.page-title {
+    background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-image: -o-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#54b4eb), color-stop(60%, #2fa4e7), to(#1d9ce5));
+    background-image: linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
+    background-repeat: no-repeat;
+    border-bottom: 1px solid #178acc;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 10px;
+  }
+  div.page-canvas {
+    text-align: center;
+    margin-top: 20px;
+  }
+  h1 {
+    margin: 0;
+    padding: 0;
+  }
+  div.tooltip {
+    background-color: rgba(250,250,250,0.75);
+    color: #333;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0.3s linear, opacity 0.3s linear;
+}
   </style>
   <body>
-
-    <div id="canvas"></div>
+    <div class="page-title">
+      <h1>Dados Criminais - RS</h1>
+    </div>
+    <div id="canvas" class="page-canvas"></div>
 
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
-
