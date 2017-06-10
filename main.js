@@ -13,7 +13,7 @@ function drawParallelCoordinates2(id) {
   // canvas W & h & maring
   var margin = {top: 60, right: 60, bottom: 60, left: 80},
       width = window.innerWidth - 300,
-      height = window.innerHeight - 250;
+      height = window.innerHeight - 300;
 
   // prepare canvas
   var svg = d3.select(id)
@@ -29,7 +29,7 @@ function drawParallelCoordinates2(id) {
   var x = d3.scale.ordinal().rangePoints([0, width], 1),
       y = {};
 
-  var line = d3.svg.line(),
+  var line = d3.svg.line().interpolate("basis"),
       axis = d3.svg.axis().orient("left");
 
   var background, foreground;
@@ -213,4 +213,4 @@ function drawParallelCoordinates2(id) {
   }
 }
 
-drawParallelCoordinates2('#canvas')
+drawParallelCoordinates2('#canvas');
