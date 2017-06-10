@@ -96,13 +96,22 @@
     visibility: hidden;
     transition: visibility 0.3s linear, opacity 0.3s linear;
     font-size: 13px;
-}
+  }
+  div.disclaimer {
+    font-size: 12px;
+    text-align: center;
+    font-style: italic;
+  }
   </style>
   <body>
     <div class="page-title">
       <h1>Dados Criminais - RS</h1>
     </div>
     <div id="canvas" class="page-canvas"></div>
+    <div class="disclaimer">
+      <strong>*</strong>Taxa de criminalidade para cada 1000 habitantes.<br />
+      <strong>Educação</strong> e <strong>Renda</strong> são índices do IDESE de 2013.
+    </div>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/topojson.v1.min.js"></script>
 
