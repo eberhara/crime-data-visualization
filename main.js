@@ -29,7 +29,7 @@ function drawParallelCoordinates2(id) {
   var x = d3.scale.ordinal().rangePoints([0, width], 1),
       y = {};
 
-  var line = d3.svg.line().interpolate("basis"),
+  var line = d3.svg.line(),
       axis = d3.svg.axis().orient("left");
 
   var background, foreground;
