@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Visualização de dados</title>
+<style>
+
+
+body {
+  font-family: "Helvetica Neue";
+  margin: 0px auto;
+  width: 960px;
+  min-height: 2000px;
+}
+
+#body {
+  position: relative;
+}
+
+footer {
+  padding: 2em 0 1em 0;
+  font-size: 12px;
+}
+
+h1 {
+  font-size: 96px;
+  margin-top: .3em;
+  margin-bottom: 0;
+}
+
+h1 + h2 {
+  margin-top: 0;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: 28px;
+}
+
+h1, h2 {
+  font-family: "Yanone Kaffeesatz";
+  text-rendering: optimizeLegibility;
+}
+
+#body > p {
+  line-height: 1.5em;
+  width: 640px;
+  text-rendering: optimizeLegibility;
+}
+
+#charts {
+  padding: 10px 0;
+}
+
+.chart {
+  display: inline-block;
+  height: 151px;
+  margin-bottom: 10px;
+}
+
+.reset {
+  padding-left: 1em;
+  font-size: smaller;
+  color: #ccc;
+}
+
+.background.bar {
+  fill: #ccc;
+}
+
+.foreground.bar {
+  fill: steelblue;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axisY path, .axisY line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axisY text {
+  font: 10px sans-serif;
+}
+
+.brush rect.extent {
+  fill: steelblue;
+  fill-opacity: .125;
+}
+
+.brush .resize path {
+  fill: #eee;
+  stroke: #666;
+}
+
+#hour-chart {
+  width: 260px;
+}
+
+#delay-chart {
+  width: 450px;
+}
+#crimepormil-chart{
+    width: 450px;
+}
+
+#distance-chart {
+  width: 420px;
+}
+
+#date-chart {
+  width: 920px;
+}
+
+#flight-list {
+  min-height: 1024px;
+}
+
+
+#flight-list .date,
+#flight-list .day {
+  margin-bottom: .4em;
+}
+
+#flight-list .flight {
+  line-height: 1.5em;
+  background: #eee;
+  width: 900px;
+  margin-bottom: 1px;
+}
+
+#flight-list .time {
+  color: #999;
+}
+
+#flight-list .flight div {
+  display: inline-block;
+  width: 110px;
+  text-align: center;
+}
+
+#flight-list div.distance,
+#flight-list div.delay, div.crimepormil {
+  width: 100px;
+  padding-right: 10px;
+  text-align: center;
+}
+#flight-list div.origin,
+#flight-list div.destination, div.crimepormil {
+  width: 200px;
+  padding-right: 10px;
+  text-align: center;
+}
+
+#flight-list .early {
+  color: green;
+}
+
+aside {
+  position: absolute;
+  left: 740px;
+  font-size: smaller;
+  width: 220px;
+}
+
+.listao
+{
+    background:#eee;
+    width:900px;
+    line-height: 1.5em;
+}
+#cabecalhoTime,
+#cabecalhototpop
+{
+      display: inline-block;
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
+}
+
+
+#cabecalhodistance ,
+#cabecalhodelay 
+{
+          display: inline-block;
+  width: 110px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#cabecalhoOrigin,
+#cabecalhodestination 
+{
+          display: inline-block;
+  width: 210px;
+  text-align: center;
+  font-weight: bold;
+}
+
+</style>
+
+<div id="body">
+
+<div id="charts">
+
+  <div id="populacao-chart" class="chart">
+    <div class="title">População</div>
+  </div>
+  <div id="crime1000hab-chart" class="chart">
+    <div class="title">Crime 1000hab</div>
+  </div>
+    <div id="furto1000hab-chart" class="chart">
+    <div class="title">Furto 1000hab</div>
+  </div>
+    <div id="homdol1000hab-chart" class="chart">
+    <div class="title">Homício Doloso 1000hab</div>
+  </div>
+    
+      <div id="possedrogas1000hab-chart" class="chart">
+    <div class="title">Posse drogas 1000hab</div>
+  </div>
+      <div id="trafico1000hab-chart" class="chart">
+    <div class="title">Trafico 1000 hab</div>
+  </div>
+    
+    
+    
+    
+  <div id="educacao-chart" class="chart">
+    <div class="title">Educação</div>
+  </div>
+    
+    
+
+</div>
+
+<aside id="totals"><span id="active">-</span> de <span id="total">-</span> dados selecionados.</aside>
+
+<br>
+<div id="lists">
+    
+    <div id="cabecalho" class="listao">
+        
+        <div id="cabecalhoTime">Cidade</div>
+        <div id="cabecalhoOrigin">População</div>
+        <div id="cabecalhodestination">Educação</div>
+        <div id="cabecalhodistance">Crime por 1000 hab</div>
+        <div id="cabecalhodelay">Tráfico por 1000 hab</div>
+        <div id="cabecalhototpop">Homícidios Dolosos 1000 hab</div>
+    </div>
+  <div id="flight-list" class="list"></div>
+</div>
+
+<footer>
+  <span style="float:right;">
+   André, Emilio, Marcelo Paravisi, Roben Lunardi.
+  </span>
+</footer>
+
+</div>
+
+
+
+<script src="crossfilter.v1.min.js"></script>
+<script src="d3.v3.min.js"></script>
+<script>
+
+// (It's CSV, but GitHub Pages only gzip's JSON at the moment.)
+d3.csv("meusdados.csv", function(error, flights) {
+
+  // Various formatters.
+  var formatNumber = d3.format("d"),
+      formatChange = d3.format("+,d"),
+      formatDate = d3.time.format("%B %d, %Y"),
+      formatTime = d3.time.format("%I:%M %p");
+
+  // A nest operator, for grouping the flight list.
+  var nestByDate = d3.nest()
+      .key(function(d) { return d.populacao; });
+
+  // A little coercion, since the CSV is untyped.
+  flights.forEach(function(d, i) {
+    d.index = i;
+    d.name = d.name;
+    d.populacao=+d.populacao;
+    d.crime1000hab=+d.crime1000hab;
+    d.furto1000hab=+d.furto1000hab;
+    d.roubo1000hab=+d.roubo1000hab;
+    d.homdol1000hab=+d.homdol1000hab;
+    d.possedrogas1000hab=+d.possedrogas1000hab;
+    d.trafico1000hab=+d.trafico1000hab;
+    d.educacao=+d.educacao;
+    d.Renda=+d.Renda;
+    d.saude=+d.saude;
+    d.PIB=+d.PIB;
+    d.PIBporhabitante=+d.PIBporhabitante; // colocar + para converter para numero
+  });
+
+  // Create the crossfilter for the relevant dimensions and groups.
+  var flight = crossfilter(flights),
+      all = flight.groupAll(),
+      
+      name = flight.dimension(function(d) { return d.name; }),
+      names = name.group(),
+      populacao = flight.dimension(function(d) { return d.populacao; }),
+      populacaos = populacao.group(function(d) { return Math.floor(d / 1000) * 1000; }),
+      crime1000hab = flight.dimension(function(d) { return d.crime1000hab; }),
+      crime1000habs = crime1000hab.group(function(d) { return Math.floor(d * 2) /2; }),
+      furto1000hab = flight.dimension(function(d) { return d.furto1000hab; }),
+      furto1000habs = furto1000hab.group(function(d) { return Math.floor(d * 2) /2; }),
+      roubo1000hab = flight.dimension(function(d) { return d.roubo1000hab; }),
+      roubo1000habs = roubo1000hab.group(function(d) { return Math.floor(d * 10) / 10; }),
+      homdol1000hab = flight.dimension(function(d) { return d.homdol1000hab; }),
+      homdol1000habs = homdol1000hab.group(function(d) { return Math.floor(d * 10) /10; }),
+      possedrogas1000hab = flight.dimension(function(d) { return d.possedrogas1000hab; }),
+      possedrogas1000habs = possedrogas1000hab.group(function(d) { return Math.floor(d * 10) /10; }),
+      trafico1000hab = flight.dimension(function(d) { return d.trafico1000hab; }),
+      trafico1000habs = trafico1000hab.group(function(d) { return Math.floor(d * 10) /10; }),
+      educacao = flight.dimension(function(d) { return d.educacao; }),
+      educacaos = educacao.group(function(d) { return Math.floor(d * 50) /50; }),
+      renda = flight.dimension(function(d) { return d.renda; }),
+      rendas = renda.group()
+      
+        ;
+
+  var charts = [
+
+    barChart()
+        .dimension(populacao)
+        .group(populacaos)
+      .x(d3.scale.linear()
+        .domain([1000, 1500000])
+        .rangeRound([0, 900])
+        ),
+
+    barChart()
+        .dimension(crime1000hab)
+        .group(crime1000habs)
+      .x(d3.scale.linear()
+        .domain([0, 80])
+        .rangeRound([0, 400])),
+    barChart()
+        .dimension(furto1000hab)
+        .group(furto1000habs)
+      .x(d3.scale.linear()
+        .domain([0, 60])
+        .rangeRound([0, 400])),
+    barChart()
+        .dimension(homdol1000hab)
+        .group(homdol1000habs)
+      .x(d3.scale.linear()
+        .domain([0, 1.5])
+        .rangeRound([0, 400])),
+    barChart()
+        .dimension(possedrogas1000hab)
+        .group(possedrogas1000habs)
+      .x(d3.scale.linear()
+        .domain([0, 10])
+        .rangeRound([0, 400])),
+    barChart()
+        .dimension(trafico1000hab)
+        .group(trafico1000habs)
+      .x(d3.scale.linear()
+        .domain([0, 2.2])
+        .rangeRound([0, 400])),
+    barChart()
+        .dimension(educacao)
+        .group(educacaos)
+      .x(d3.scale.linear()
+        .domain([0.45, 0.9])
+        .rangeRound([0, 400])),
+
+
+
+  ];
+
+  // Given our array of charts, which we assume are in the same order as the
+  // .chart elements in the DOM, bind the charts to the DOM and render them.
+  // We also listen to the chart's brush events to update the display.
+  var chart = d3.selectAll(".chart")
+      .data(charts)
+      .each(function(chart) { chart.on("brush", renderAll).on("brushend", renderAll); });
+
+
+
+  // Render the initial lists.
+  var list = d3.selectAll(".list")
+      .data([flightList]);
+
+  // Render the total.
+  d3.selectAll("#total")
+      .text(formatNumber(flight.size()));
+
+  renderAll();
+
+  // Renders the specified chart or list.
+  function render(method) {
+    d3.select(this).call(method);
+  }
+
+  // Whenever the brush moves, re-rendering everything.
+  function renderAll() {
+    chart.each(render);
+    list.each(render);
+    d3.select("#active").text(formatNumber(all.value()));
+  }
+
+  // Like d3.time.format, but faster.
+  function parseDate(d) {
+    return new Date(2016,
+        d.substring(0, 2) - 1,
+        d.substring(2, 4),
+        d.substring(4, 6),
+        d.substring(6, 8));
+  }
+
+  window.filter = function(filters) {
+    filters.forEach(function(d, i) { charts[i].filter(d); });
+    renderAll();
+  };
+
+  window.reset = function(i) {
+    charts[i].filter(null);
+    renderAll();
+  };
+
+  function flightList(div) {
+    var flightsByDate = nestByDate.entries(populacao.top(40));
+
+    div.each(function() {
+      var date = d3.select(this).selectAll(".date")
+          .data(flightsByDate, function(d) { return d.key; });
+
+      date.enter().append("div")
+          .attr("class", "date");
+      
+
+      date.exit().remove();
+
+      var flight = date.order().selectAll(".flight")
+          .data(function(d) { return d.values; }, function(d) { return d.index; });
+
+      var flightEnter = flight.enter().append("div")
+          .attr("class", "flight");
+
+      flightEnter.append("div")
+          .attr("class", "time")
+          .text(function(d) { return d.name; });
+
+      flightEnter.append("div")
+          .attr("class", "origin")
+          .text(function(d) { return d.populacao; });
+
+      flightEnter.append("div")
+          .attr("class", "destination")
+          .text(function(d) { return d.educacao.toPrecision(3); });
+
+      flightEnter.append("div")
+          .attr("class", "distance")
+          .text(function(d) { return d.crime1000hab.toPrecision(3); });
+
+  
+      flightEnter.append("div")
+          .attr("class", "totpop")
+          .text(function(d) { return d.trafico1000hab.toPrecision(3); });
+  
+        flightEnter.append("div")
+          .attr("class", "totpop")
+          .text(function(d) { return d.homdol1000hab.toPrecision(2); });
+
+      flight.exit().remove();
+
+      flight.order();
+    });
+  }
+
+  function barChart() {
+    if (!barChart.id) barChart.id = 0;
+
+    var margin = {top: 10, right: 10, bottom: 20, left: 40},
+        x,
+        y = d3.scale.linear().range([105, 0]),// altura do grafico 
+        id = barChart.id++,
+        axis = d3.svg.axis().orient("bottom"),
+        
+        brush = d3.svg.brush(),
+        brushDirty,
+        dimension,
+        group,
+        round,
+        axisY= d3.svg.axis().orient("left").scale(y).ticks(4);
+        if (id == 0)
+            axis.ticks(30).tickFormat(d3.format("s"));    
+
+    function chart(div) {
+        
+      var width = x.range()[1],
+          height = y.range()[0];
+
+      var maior =group.top(1)[0].value;
+      y.domain([0, maior])
+              .nice();
+      
+      axisY= d3.svg.axis().orient("left").scale(y).ticks(4);
+///var dados = group.filter(dimension);
+       // //console.log(id+" maior: ",maior);
+        
+      ////console.log(" group: ",group.size());
+      div.each(function() {
+        var div = d3.select(this),
+            g = div.select("g");
+
+        // Create the skeletal chart.
+        if (g.empty()) {
+            //console.log(" ---- called");
+          div.select(".title").append("a")
+              .attr("href", "javascript:reset(" + id + ")")
+              .attr("class", "reset")
+              .text("reset")
+              .style("display", "none");
+
+          g = div.append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+          g.append("clipPath")
+              .attr("id", "clip-" + id)
+            .append("rect")
+              .attr("width", width)
+              .attr("height", height);
+
+          g.selectAll(".bar")
+              .data(["background", "foreground"])
+            .enter().append("path")
+              .attr("class", function(d) { return d + " bar"; })
+              .attr("transform", "translate(0,0)")
+              .datum(group.all());
+
+          g.selectAll(".foreground.bar")
+              .attr("clip-path", "url(#clip-" + id + ")")
+              .attr("transform", "translate(0,0)");
+
+          g.append("g")
+              .attr("class", "axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(axis);
+      
+          g.append("g")
+              .attr("class", "axisY")
+              .attr("id","axisY-"+id)
+              .attr("transform", "translate(0,0)")
+              .call(axisY);
+      
+      
+
+          // Initialize the brush component with pretty resize handles.
+          var gBrush = g.append("g").attr("class", "brush").call(brush);
+          gBrush.selectAll("rect").attr("height", height);
+          gBrush.selectAll(".resize").append("path").attr("d", resizePath);
+          
+        }
+
+        // Only redraw the brush if set externally.
+        if (brushDirty) {
+            //console.log(" ------ brushDirty");
+          brushDirty = false;
+          g.selectAll(".brush").call(brush);
+          div.select(".title a").style("display", brush.empty() ? "none" : null);
+          if (brush.empty()) {
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", 0)
+                .attr("width", width);
+          } else {
+              //console.log("  ----------------- extent");
+            var extent = brush.extent();
+            
+            g.selectAll("#clip-" + id + " rect")
+                .attr("x", x(extent[0]))
+                .attr("width", x(extent[1]) - x(extent[0]))
+                ;
+          }
+        }
+
+        g.selectAll(".bar").attr("d", barPath);
+      });
+
+
+      function barPath(groups) {
+        var path = [],
+            i = -1,
+            n = groups.length,
+            d;
+            var maior = 0;
+        while (++i < n) {
+          d = groups[i];
+          if (d.value > maior)
+              maior = d.value;
+          path.push("M", x(d.key), ",", height, "V", y(d.value), "h9V", height);
+        }
+        
+            //console.log(id+" barpath n ",n, " maior: ",maior);
+            y.domain([0, maior]);
+            d3.select("#axisY-"+id).selectAll("*").remove();
+            d3.select("#axisY-"+id).call(axisY);
+            
+        return path.join("");
+      }
+
+      function resizePath(d) {
+        var e = +(d == "e"),
+            x = e ? 1 : -1,
+            y = height / 3;
+        return "M" + (.5 * x) + "," + y
+            + "A6,6 0 0 " + e + " " + (6.5 * x) + "," + (y + 6)
+            + "V" + (2 * y - 6)
+            + "A6,6 0 0 " + e + " " + (.5 * x) + "," + (2 * y)
+            + "Z"
+            + "M" + (2.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8)
+            + "M" + (4.5 * x) + "," + (y + 8)
+            + "V" + (2 * y - 8);
+      }
+      
+        
+    }
+
+    brush.on("brushstart.chart", function() {
+      var div = d3.select(this.parentNode.parentNode.parentNode);
+      div.select(".title a").style("display", null);
+      ////console.log(id+" - brushstart.chart");
+    });
+
+    brush.on("brush.chart", function() {
+        ////console.log(id+" - brush.chart");
+      var g = d3.select(this.parentNode),
+          extent = brush.extent();
+          
+        ////console.log("chart div ",x(extent[0])," - ",x(extent[1]));
+      if (round) g.select(".brush")
+          .call(brush.extent(extent = extent.map(round)))
+        .selectAll(".resize")
+          .style("display", null);
+      g.select("#clip-" + id + " rect")
+          .attr("x", x(extent[0]))
+          .attr("width", x(extent[1]) - x(extent[0]));
+      dimension.filterRange(extent);
+      
+        //console.log(id+" === maior: "+y.domain());
+
+        //g.selectAll("#axisY-"+id).call(axisY);
+    });
+
+    brush.on("brushend.chart", function() {
+        
+        ////console.log(id+" - brushend.chart");
+      if (brush.empty()) {
+        var div = d3.select(this.parentNode.parentNode.parentNode);
+        div.select(".title a").style("display", "none");
+        div.select("#clip-" + id + " rect").attr("x", null).attr("width", "100%");
+        dimension.filterAll();
+        
+      }
+    });
+
+    chart.margin = function(_) {
+        //console.log("chart margin");
+      if (!arguments.length) return margin;
+      margin = _;
+      return chart;
+    };
+
+    chart.x = function(_) {
+        //console.log("chart x");
+      if (!arguments.length) return x;
+      x = _;
+      axis.scale(x);
+      brush.x(x);
+      return chart;
+    };
+
+    chart.y = function(_) {
+        //console.log("chart y");
+      if (!arguments.length) return y;
+      y = _;
+      return chart;
+    };
+
+    chart.dimension = function(_) {
+        //console.log("chart dimension");
+      if (!arguments.length) return dimension;
+      dimension = _;
+      return chart;
+    };
+
+    chart.filter = function(_) {
+        //console.log("chart filter");
+      if (_) {
+        brush.extent(_);
+        dimension.filterRange(_);
+      } else {
+        brush.clear();
+        dimension.filterAll();
+      }
+      
+      brushDirty = true;
+      
+      
+      return chart;
+    };
+
+    chart.group = function(_) {
+        //console.log("chart group");
+      if (!arguments.length) return group;
+      group = _;
+      
+      return chart;
+    };
+
+    chart.round = function(_) {
+        //console.log("chart round");
+      if (!arguments.length) return round;
+      round = _;
+      return chart;
+    };
+
+    return d3.rebind(chart, brush, "on");
+  }
+});
+
+</script>
